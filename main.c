@@ -21,10 +21,37 @@ unsigned int bin_color(int value){
 void renderScene(){
 	glClear(GL_COLOR_BUFFER_BIT);
 	
-	int i,j;
+	int i,j,k,l;
 
+	int next_grid[S_WIDTH][S_HEIGHT];
+	for(i = 0; i < S_WIDTH; i++){
+		for(j = 0; j < S_HEIGHT; j++){
+			int count= 0;
+			for(k = -1; k<1;k++){
+				for(l = -1; l<1; l++){
+					count += grid[(i+k+S_WIDTH)%S_WIDTH][(j+l+S_HEIGHT)%S_HEIGHT];
+				}
+			}
+			count -= grid[i][j];
 
+			int now_state = grid[i][j];
+
+			if(!now_state && count == 3){
+				next_grid[i][j] = 1;
+			}else if(now_state && (count < 2 || count > 3)){
+				next_grid[i][j] = 0;
+			}else{
+				next_grid[i][j] = now_state;
+			}
+		}
+	}
 	
+	for(i = 0; i < S_WIDTH; i++){
+		for(j = 0; j < S_HEIGHT; j++){
+			grid[i][j] = next_grid[i][j];
+		}
+	}
+
 	// Texture update
 	for(i = 0; i < S_WIDTH; i++){
 		for(j = 0; j < S_HEIGHT; j++){
@@ -77,6 +104,12 @@ void setup(){
 
 }
 
+void timerFunction(int val){
+	glutPostRedisplay();
+
+	glutTimerFunc(33, timerFunction, 1);
+}
+
 int main(int argc, char **argv){
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
@@ -84,7 +117,7 @@ int main(int argc, char **argv){
     glutCreateWindow("The Game Of Life");
     glutDisplayFunc(renderScene);
     glutReshapeFunc(framebuffer_size_callback);
-
+	glutTimerFunc(10, timerFunction, 1);
 	setup();
 
 	glutMainLoop();
