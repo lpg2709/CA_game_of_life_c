@@ -12,7 +12,7 @@ unsigned char textureData[S_WIDTH][S_HEIGHT][3];
 int grid[S_WIDTH][S_HEIGHT];
 
 unsigned int bin_color(int value){
-	if(value)
+	if(!value)
 		return 255;
 	else
 		return 0;
@@ -38,7 +38,7 @@ void renderScene(){
 
 			if(!now_state && count == 3){
 				next_grid[i][j] = 1;
-			}else if(now_state && (count < 2 || count > 3)){
+			}else if(now_state && (count <= 2 || count > 3)){
 				next_grid[i][j] = 0;
 			}else{
 				next_grid[i][j] = now_state;
@@ -100,7 +100,7 @@ void setup(){
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
-	 glEnable(GL_TEXTURE_2D);
+	glEnable(GL_TEXTURE_2D);
 
 }
 

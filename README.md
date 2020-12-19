@@ -1,5 +1,7 @@
 # CA - Game Of Life C
 
+> NOT WORKING
+
 Implementation of The Game Of Life (Conway's Game of Life) in C with [openGL](https://www.opengl.org/).
 
 ## Dependences
@@ -7,6 +9,11 @@ Implementation of The Game Of Life (Conway's Game of Life) in C with [openGL](ht
 - [Freeglut](http://freeglut.sourceforge.net/)t
 
 ## Compile
+
+```bash
+make
+./game_of_life_c
+```
 
 ## References
 
